@@ -142,13 +142,18 @@ while roll_for_skill1 != 'roll':
   roll_for_skill1 = input('Please type roll to roll for skill. ')
 
 if roll_for_skill1 == 'roll':
-  roll_check = random.randint(1, 8) + Hero.intelligence
-  if roll_check >= 4:
+  if player_class = 'Warrior':
+    war_roll_check = random.randint(1, 8)
+  else:  
+  sorc_roll_check = random.randint(1, 8) + sorcerer.intelligence
+  if war_roll_check and sorc_roll_check >= 4:
     print('You rolled ' + str(roll_check) + '. Pass!')
     mage_gnoll = Gnoll(5, 1, 'Mage')
     print(mage_gnoll)
+  else:
+    print('Shame, you notice nothing out of the ordinary.')  
 
-attack_or_die = input('As you stare at each other intensely from mere feet away, your body tenses with anticipation. Will this Gnoll allow you to pass or will it lunge? You begin to move, whether to attack or walk around it peacefully, you need to decide. Attack or Pass? ')
+attack_or_die = input('As you stare at each other intensely from mere feet away, your body tenses with anticipation. Will it allow you to pass or will it lunge? You begin to move, whether to attack or walk around it peacefully, you need to decide. Attack or Pass? ')
 while attack_or_die != 'Attack' and attack_or_die != 'Pass':
   attack_or_die = input('Please choose to Attack or Pass. ')
 
