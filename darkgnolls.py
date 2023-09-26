@@ -136,22 +136,28 @@ if begin_game == 'Yes':
   print('You begin your quest walking down a narrow cave. As you turn the corner you hear a stange sound. You then spot a dark mass out of the corner of your eye. ')
 
 
-roll_for_skill1 = input('You cant quite make out what the creature is. Please "roll" 1d8 (+ int bonus) and press enter. ')
+roll_for_skill1 = input('You cant quite make out what the creature is. Please "Roll" 1d8 (+ int bonus) and press enter. ')
 
-while roll_for_skill1 != 'roll':
-  roll_for_skill1 = input('Please type roll to roll for skill. ')
+while roll_for_skill1 != 'Roll':
+  roll_for_skill1 = input('Please type Roll to roll for skill. ')
 
-if roll_for_skill1 == 'roll':
-  if player_class = 'Warrior':
+if roll_for_skill1 == 'Roll':
+  if player_class == 'Warrior':
     war_roll_check = random.randint(1, 8)
+    if war_roll_check >= 4:
+        print('You rolled ' + str(war_roll_check) + '. Pass!')
+        mage_gnoll = Gnoll(5, 1, 'Mage')
+        print(mage_gnoll)
+    else:
+        print('Shame, you rolled ' + str(war_roll_check) + '. You notice nothing out of the ordinary.')  
   else:  
-  sorc_roll_check = random.randint(1, 8) + sorcerer.intelligence
-  if war_roll_check and sorc_roll_check >= 4:
-    print('You rolled ' + str(roll_check) + '. Pass!')
-    mage_gnoll = Gnoll(5, 1, 'Mage')
-    print(mage_gnoll)
-  else:
-    print('Shame, you notice nothing out of the ordinary.')  
+    sorc_roll_check = random.randint(1, 8) + sorcerer.intelligence
+    if sorc_roll_check >= 4:
+        print('You rolled ' + str(sorc_roll_check) + '. Pass!')
+        mage_gnoll = Gnoll(5, 1, 'Mage')
+        print(mage_gnoll)  
+    else:
+        print('Shame, you rolled ' + str(sorc_roll_check) + '. You notice nothing out of the ordinary.')  
 
 attack_or_die = input('As you stare at each other intensely from mere feet away, your body tenses with anticipation. Will it allow you to pass or will it lunge? You begin to move, whether to attack or walk around it peacefully, you need to decide. Attack or Pass? ')
 while attack_or_die != 'Attack' and attack_or_die != 'Pass':
@@ -175,6 +181,8 @@ if attack_or_die == 'Pass':
     mage_gnoll.attack_player(warrior)
     mage_gnoll.attack_player(warrior)
 
-if player_class == 'Sorcerer':    
-  while mage_gnoll.gnoll_health >= 0:  
+if player_class == 'Sorcerer':      
     sorcerer.attack_gnoll('Mage')
+    if mage_gnoll.gnoll_health >= 0:
+        print('Enemy Mage Gnoll is dazed!')
+        sorcerer.attack_gnoll('Mage')
