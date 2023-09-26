@@ -136,14 +136,14 @@ if begin_game == 'Yes':
   print('You begin your quest walking down a narrow cave. As you turn the corner you hear a stange sound. You then spot a dark mass out of the corner of your eye. ')
 
 
-roll_for_skill1 = input('You cant quite make out what the creature is. Please "roll" 1d8 and press enter. ')
+roll_for_skill1 = input('You cant quite make out what the creature is. Please "roll" 1d8 (+ int bonus) and press enter. ')
 
 while roll_for_skill1 != 'roll':
   roll_for_skill1 = input('Please type roll to roll for skill. ')
 
 if roll_for_skill1 == 'roll':
-  roll_check = random.randint(1, 8)
-  if roll_check >= 1:
+  roll_check = random.randint(1, 8) + Hero.intelligence
+  if roll_check >= 4:
     print('You rolled ' + str(roll_check) + '. Pass!')
     mage_gnoll = Gnoll(5, 1, 'Mage')
     print(mage_gnoll)
