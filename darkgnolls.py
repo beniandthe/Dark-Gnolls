@@ -62,6 +62,11 @@ class Hero:
         print('You do a twirly spin into a disco finger as power courses through you.')
 
 
+# if loot lust goes wrong
+    def trap_damage(self):
+       damage = 2
+       self.health -= damage
+       print('You take {damage} damage from the trap. You now have {health} health.'.format(damage = damage, health = self.health))
 
 # Describing Gnolls - There are 2 types of Gnolls, Brawler(Mid Damage, mid health), Mage(Mid damage, low health, sorc immune). They only attack and die. 
 #the player will encounter 2 instances of gnolls. After defeating one, a printed message ('you venture forth... and see 'type' Gnoll. Attack!) The first enconter should be Mage. 
@@ -186,3 +191,29 @@ if player_class == 'Sorcerer':
     if mage_gnoll.gnoll_health >= 0:
         print('Enemy Mage Gnoll is dazed!')
         sorcerer.attack_gnoll('Mage')
+
+cont_journey = input('Continue your journey? Yes or No? ')
+while cont_journey != 'Yes' and 'No':
+   cont_journey = input('Please type Yes or No ')
+if cont_journey == ' No':
+  cont_journey = input('Please type Yes when ready otherwise type exit() to exit the game ')
+if cont_journey == ' Yes':
+   print('Its a long journey to the other end of the cave. Your boots are soaked and worn and your body exhausted. After what feels like days of crouching throug hthe narrow system you spot a glimmer of light in front of you and smell fresh air. You draw closer to the cave exit when all of a sudden you kick something hard at your feet. A chest, probably belonging to the Gnoll you just threw down. You go to reach for it but stop short. Could it be trapped?')
+chest1 = input('Do you "Reach" to open the chest or "Check" its surroundings first? ')
+while chest1 != 'Reach' and 'Check':
+   chest1 = input('Please type Reach or Check ')
+if chest1 == 'Reach':
+  if player_class == 'Warrior':
+    chest_check_war = input('You reach out in blind lust to open the chest and feel a wire cross the back of your hand as the lid swings open. Suddenly a loud whip-like sound cracks the air. "Roll" 1d20 (+ str bonus) to dodge. ')
+    while chest_check_war != 'Roll':
+       chest_check_war = input('Please type Roll to roll. ')
+    if chest_check_war == 'Roll':
+       dodge_roll = random.randint(1, 20) + warrior.strength
+       if dodge_roll <= 14:
+          print(str(dodge_roll) + ', Fail! Your right shoulder erupts in pain as you fall to the floor. In your lust for loot you missed the obvious wire trap connected to a series of throw darts behind you.')
+          warrior.trap_damage()
+          print('You slowly regain your composure and pick yourself up.')
+       else:
+          print(dodge_roll + ', Pass! You narrowly step out of the way as 3 throwing darts inch past your right shoulder and embed themselevs into the wall.')
+       print('You peer into the contents of the chest and pick out something shiny - a "Ring of Precise Attack!" (+4 to strength). You put it on and immediately feel stonger.')
+       
