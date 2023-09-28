@@ -7,11 +7,11 @@
 import random
 
 class Hero:
-    def __init__(self, player_name, level, max_health, player_class, strength, intelligence):
+    def __init__(self, player_name, level, health, max_health, player_class, strength, intelligence):
         self.name = player_name
         self.level = level
         self.type = player_class
-        self.health = max_health
+        self.health = health
         self.max_health = max_health
         self.strength = level + 7 if player_class == 'Warrior' else 0
         self.intelligence = level * 4 if player_class == 'Sorcerer' else 0
@@ -54,12 +54,15 @@ class Hero:
 # If enemy gnoll health <= 0, self.level + 1, health == max_health.
     def level_up(self):
         self.level += 1
-        self.health == self.max_health
         if self.type == 'Warrior':
           self.strength = self.level + 7
+          self.max_health += 7
+          self.health = self.max_health
         else:
           self.intelligence = self.level * 4
-        print('Level up! You are now level {level}. Strength {strength}, Intelligence {intelligence}.'.format(level = self.level, strength = self.strength, intelligence = self.intelligence))
+          self.max_health += 4
+          self.health = self.max_health
+        print('Level up! You are now level {level}. Strength {strength}, Intelligence {intelligence}, Health {health}/{maxhealth}.'.format(level = self.level, strength = self.strength, intelligence = self.intelligence, health = self.health, maxhealth = self.max_health))
         print('You do a twirly spin into a disco finger as power courses through you.')
 
 
@@ -80,10 +83,10 @@ class Hero:
 # Describing Gnolls - There are 2 types of Gnolls, Brawler(Mid Damage, mid health), Mage(Mid damage, low health, sorc immune). They only attack and die. 
 #the player will encounter 2 instances of gnolls. After defeating one, a printed message ('you venture forth... and see 'type' Gnoll. Attack!) The first enconter should be Mage. 
 class Gnoll:
-    def __init__(self, health, level, type):
+    def __init__(self, health, level, damage, type):
         self.gnoll_health = health + level
         self.gnoll_type = type
-        self.gnoll_damage = 2 if self.gnoll_type == 'Mage' else 4 
+        self.gnoll_damage = damage 
         self.is_alive = True
         self.level = level
   
@@ -96,14 +99,14 @@ class Gnoll:
 # Check that gnoll is still alive. The higher the gnoll health i.e Brawler == 7, Mage == 5, the less damage they do. As long as the Gnoll is above 1 health, they will attack the player.  
     def attack_player(self, hero):
         if self.gnoll_health >= 1:
-          if self.gnoll_type == 'Mage' and hero.type == 'Sorcerer':
+          if (self.gnoll_type == 'Mage') and (hero.type == 'Sorcerer'):
             print("{player} is immune to enemy mage's attack!".format(player = hero.name))
-        else:   
-          print('{player} takes {damage} damage from {type} Gnoll'.format(player = hero.name, damage = self.gnoll_damage, type = self.gnoll_type))
-        hero.health -= self.gnoll_damage
-        if hero.health <= 0:
-          hero.health = 0
-          hero.game_over()
+          else:   
+            print('{player} takes {damage} damage from {type} Gnoll'.format(player = hero.name, damage = self.gnoll_damage, type = self.gnoll_type))
+            hero.health -= self.gnoll_damage
+          if hero.health <= 0:
+            hero.health = 0
+            hero.game_over()
       
 # If the gnoll is killed, health == 0, print('You have slaughtered your foe....')Player should self.level + 1, self.heal, and next encounter should begin.
     def die(self, hero):
@@ -114,8 +117,8 @@ class Gnoll:
           hero.level_up()
 
 
-brawler_gnoll = Gnoll(7, 1, 'Brawler') 
-mage_gnoll = Gnoll(5, 1, 'Mage')
+brawler_gnoll = Gnoll(10, 1, 6, 'Brawler') 
+mage_gnoll = Gnoll(5, 1, 2, 'Mage')
 
 player_name = input('Welcome to the world of Nautz. Please type your character name and press enter. ')
 while player_name == '':
@@ -126,14 +129,14 @@ player_class = input('Greetings ' + player_name + '. Please choose your characte
 if player_class != 'Warrior' and player_class != 'Sorcerer':
   player_class = input('Player class incorrect. Please try again.')
 if player_class == 'Warrior':
-  warrior = Hero(player_name, 1, 6, 'Warrior', 8, 0)
+  warrior = Hero(player_name, 1, 6, 6, 'Warrior', 8, 0)
   print(warrior)
 if player_class == 'Sorcerer':
-  sorcerer = Hero(player_name, 1, 6, 'Sorcerer', 0, 4)
+  sorcerer = Hero(player_name, 1, 6, 6, 'Sorcerer', 0, 4)
   print(sorcerer)
   
-warrior = Hero(player_name, 1, 6, 'Warrior', 8, 0)
-sorcerer = Hero(player_name, 1, 6, 'Sorcerer', 0, 4)
+warrior = Hero(player_name, 1, 6, 6, 'Warrior', 8, 0)
+sorcerer = Hero(player_name, 1, 6, 6, 'Sorcerer', 0, 4)
 player = [warrior, sorcerer]
 player[0] = warrior
 player[1] = sorcerer
@@ -160,7 +163,7 @@ if roll_for_skill1 == 'Roll':
     war_roll_check = random.randint(1, 8)
     if war_roll_check >= 4:
         print('You rolled ' + str(war_roll_check) + '. Pass!')
-        mage_gnoll = Gnoll(5, 1, 'Mage')
+        mage_gnoll = Gnoll(5, 1, 2, 'Mage')
         print(mage_gnoll)
     else:
         print('Shame, you rolled ' + str(war_roll_check) + '. You notice nothing out of the ordinary.')  
@@ -168,7 +171,7 @@ if roll_for_skill1 == 'Roll':
     sorc_roll_check = random.randint(1, 8) + sorcerer.intelligence
     if sorc_roll_check >= 4:
         print('You rolled ' + str(sorc_roll_check) + '. Pass!')
-        mage_gnoll = Gnoll(5, 1, 'Mage')
+        mage_gnoll = Gnoll(5, 1, 2, 'Mage')
         print(mage_gnoll)  
     else:
         print('Shame, you rolled ' + str(sorc_roll_check) + '. You notice nothing out of the ordinary.')  
