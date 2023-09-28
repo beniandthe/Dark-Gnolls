@@ -70,11 +70,11 @@ class Hero:
        print('You take {damage} damage from the trap. You now have {health} health.'.format(damage = damage, health = self.health))
 
     def ring_of_str(self):
-      self.strength += 4
+      self.strength += 5
       print('Your total strength is now {strength}.'.format(strength = self.strength))
     
     def helm(self):
-      self.intelligence += 7
+      self.intelligence += 4
       print('Your total intelligence is now {intelligence}.'.format(intelligence = self.intelligence))
 
 # Describing Gnolls - There are 2 types of Gnolls, Brawler(Mid Damage, mid health), Mage(Mid damage, low health, sorc immune). They only attack and die. 
@@ -210,13 +210,13 @@ if cont_journey == 'Yes':
   print('Its a long journey to the other end of the cave. Your boots are soaked and worn and your body exhausted. After what feels like days of crouching through the narrow system you spot a glimmer of light in front of you and smell fresh air. You draw closer to the cave exit when all of a sudden you kick something hard at your feet. A chest, probably belonging to the Gnoll you just threw down. You go to reach for it but stop short. Could it be a trap?')
   chest1 = input('Do you "Reach" to open the chest or "Check" its surroundings first? ')
 
-while chest1 != 'Reach' and 'Check':
-   chest1 = input('Please type Reach or Check ')
+while (chest1 != 'Reach') and (chest1 != 'Check'):
+   chest1 = input('Please type Reach or Check. ')
 if chest1 == 'Reach':
-  chest_check_war = input('You reach out in blind lust to open the chest and feel a wire cross the back of your hand as the lid swings open. Suddenly a loud whip-like sound cracks the air. "Roll" 1d20 (+ str bonus) to dodge. ')
-  while chest_check_war != 'Roll':
-    chest_check_war = input('Please type Roll to roll. ')
-  if chest_check_war == 'Roll':
+  chest_reach_war = input('You reach out in blind lust to open the chest and feel a wire cross the back of your hand as the lid swings open. Suddenly a loud whip-like sound cracks the air. "Roll" 1d20 (+ str bonus) to dodge. ')
+  while chest_reach_war != 'Roll':
+    chest_reach_war = input('Please type Roll to roll. ')
+  if chest_reach_war == 'Roll':
     if player_class == 'Warrior':
       dodge_roll = random.randint(1, 20) + warrior.strength
       if dodge_roll <= 14:
@@ -236,5 +236,33 @@ if chest1 == 'Reach':
         print('You slowly regain your composure and pick yourself up.')
       else:
         print('You rolled ' + str(dodge_roll) + ', Pass! You narrowly step out of the way as 3 throwing darts inch past your right shoulder and embed themselevs into the wall.')
-      print('You peer into the contents of the chest and pick out something shiny - a "Helm of Intelligence" (+7 to intelligence). You put it on and immediately feel wiser.')
+      print('You peer into the contents of the chest and pick out something shiny - a "Helm of Intelligence" (+4 to intelligence). You put it on and immediately feel wiser.')
       sorcerer.helm()
+
+if chest1 == 'Check':
+  chest_check_war = input('Your eyes scan the area for signs of ill intent. Roll 1d20 (+ intelligence bonus). ')
+  while chest_check_war != 'Roll':
+    chest_check_war = input('Please type Roll to roll. ')
+  if chest_check_war == 'Roll':
+    if player_class == 'Warrior':
+      check_roll = random.randint(1, 20)
+      if check_roll <= 14:
+        print('You rolled ' + str(check_roll) + ', Fail! Your gaze gets stuck on a grouping of unremarkable rocks. Assuming you are clear, you reach for the to of the chest. A loud *crack* breaks the silent air. Your right shoulder erupts in pain as you fall to the floor with three darts embedded in your back.')
+        warrior.trap_damage()
+        print('You slowly regain your composure and pick yourself up.')
+      else:
+        print('You rolled ' + str(check_roll) + ', Pass! You notice a thin wire wrapped between the handle of the chest, laying just taught enough across the ground. It connects to a series of holes in the wall behind you. You step away and surgically cut the wire from a distance as 3 darts explode out of the holes and embed themselves in the far wall.')
+      print('As you peer into the contents of the chest you pick out something shiny - a "Ring of Precise Attack!" (+5 to strength). You put it on and immediately feel stonger.')
+      warrior.ring_of_str()  
+    else:
+      check_roll = random.randint(1, 20) + sorcerer.intelligence
+      if check_roll <= 14:
+        print('You rolled ' + str(check_roll) + ', Fail! Your gaze gets stuck on a grouping of unremarkable rocks. Assuming you are clear, you reach for the to of the chest. A loud *crack* breaks the silent air. Your right shoulder erupts in pain as you fall to the floor with three darts embedded in your back.')
+        sorcerer.trap_damage()
+        print('You slowly regain your composure and pick yourself up.')
+      else:
+        print('You rolled ' + str(check_roll) + ', Pass! You notice a thin wire wrapped between the handle of the chest, laying just taught enough across the ground. It connects to a series of holes in the wall behind you. You step away and surgically cut the wire from a distance as 3 darts explode out of the holes and embed themselves in the far wall.')
+      print('As you peer into the contents of the chest you pick out something shiny - a "Helm of Intelligence" (+4 to intelligence). You put it on and immediately feel wiser.')
+      sorcerer.helm()
+
+   
