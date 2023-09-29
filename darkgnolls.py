@@ -5,6 +5,7 @@
 
 
 import random
+import sys
 
 class Hero:
     def __init__(self, player_name, level, health, max_health, player_class, strength, intelligence):
@@ -32,24 +33,25 @@ class Hero:
             mage_gnoll.die(warrior)
           else:
             brawler_gnoll.gnoll_health -= self.strength
-          if brawler_gnoll.gnoll_health <= 0:
-            brawler_gnoll.die(warrior)         
+            if brawler_gnoll.gnoll_health <= 0:
+              brawler_gnoll.die(warrior)         
         else:
           print('You deal {damage} damage to {type} Gnoll.'.format(damage = self.intelligence, type = gnoll))
           if gnoll == 'Mage':
             mage_gnoll.gnoll_health -= self.intelligence
-          if mage_gnoll.gnoll_health <= 0:
-            mage_gnoll.die(sorcerer)
+            if mage_gnoll.gnoll_health <= 0:
+              mage_gnoll.die(sorcerer)
           else:
             brawler_gnoll.gnoll_health -= self.intelligence
-          if brawler_gnoll.gnoll_health <= 0:
-            brawler_gnoll.die(sorcerer)
+            if brawler_gnoll.gnoll_health <= 0:
+              brawler_gnoll.die(sorcerer)
          
 
 # If health reaches 0 or below 0, set dead, game over.        
     def game_over(self):
         self.is_dead = True
         print('You died.')
+        sys.exit()
       
 # If enemy gnoll health <= 0, self.level + 1, health == max_health.
     def level_up(self):
@@ -65,6 +67,15 @@ class Hero:
         print('Level up! You are now level {level}. Strength {strength}, Intelligence {intelligence}, Health {health}/{maxhealth}.'.format(level = self.level, strength = self.strength, intelligence = self.intelligence, health = self.health, maxhealth = self.max_health))
         print('You do a twirly spin into a disco finger as power courses through you.')
 
+#rest to heal damage
+    def rest(self):
+      self.health = self.max_health
+      print('{player} awakens a short time later feeling refreshed. Current health is {health}/{maxhealth}.'.format(player = self.name, health = self.health, maxhealth = self.max_health))
+
+# exhaustion damage
+    def exhausted(self):
+      self.health -= 1
+      print('Your body fights you with every step but you push on. You suffer one damage: {health}/{maxhealth}.'.format(health=self.health, maxhealth=self.max_health))
 
 # if loot lust goes wrong
     def trap_damage(self):
@@ -250,7 +261,7 @@ if chest1 == 'Check':
     if player_class == 'Warrior':
       check_roll = random.randint(1, 20)
       if check_roll <= 14:
-        print('You rolled ' + str(check_roll) + ', Fail! Your gaze gets stuck on a grouping of unremarkable rocks. Assuming you are clear, you reach for the to of the chest. A loud *crack* breaks the silent air. Your right shoulder erupts in pain as you fall to the floor with three darts embedded in your back.')
+        print('You rolled ' + str(check_roll) + ', Fail! Your gaze gets stuck on a grouping of unremarkable rocks. Assuming you are clear, you reach for the top of the chest. A loud *crack* breaks the silent air. Your right shoulder erupts in pain as you fall to the floor with three darts embedded in your back.')
         warrior.trap_damage()
         print('You slowly regain your composure and pick yourself up.')
       else:
@@ -260,7 +271,7 @@ if chest1 == 'Check':
     else:
       check_roll = random.randint(1, 20) + sorcerer.intelligence
       if check_roll <= 14:
-        print('You rolled ' + str(check_roll) + ', Fail! Your gaze gets stuck on a grouping of unremarkable rocks. Assuming you are clear, you reach for the to of the chest. A loud *crack* breaks the silent air. Your right shoulder erupts in pain as you fall to the floor with three darts embedded in your back.')
+        print('You rolled ' + str(check_roll) + ', Fail! Your gaze gets stuck on a grouping of unremarkable rocks. Assuming you are clear, you reach for the top of the chest. A loud *crack* breaks the silent air. Your right shoulder erupts in pain as you fall to the floor with three darts embedded in your back.')
         sorcerer.trap_damage()
         print('You slowly regain your composure and pick yourself up.')
       else:
@@ -268,4 +279,86 @@ if chest1 == 'Check':
       print('As you peer into the contents of the chest you pick out something shiny - a "Helm of Intelligence" (+4 to intelligence). You put it on and immediately feel wiser.')
       sorcerer.helm()
 
-   
+venture_forth = input('With your powers strengthened, you exit the cave and inhale a deep breath of fresh air. All of a sudden you feel the weight of your pack and the cold in your bones. Exhaustion grips you. On a hill nearby you spot a perfect place to setup camp. You may "Rest" or "Continue" on. ')
+while (venture_forth != 'Rest') and (venture_forth != 'Continue'):
+  venture_forth = input('Please type Rest or Continue. ')
+if venture_forth == 'Rest':
+  if player_class == 'Warrior':
+    warrior.rest()
+  else:
+    sorcerer.rest()
+if venture_forth == 'Continue':
+  if player_class == 'Warrior':
+    warrior.exhausted()
+  else:
+    sorcerer.exhausted()
+
+dodge_gnoll = input('You make your way down the hillside north and spot the towers of Goteem city! As you pick up your pace the sound of your pack blocks out the sounds of the mountainside. "Roll" 1d20 (+ strength bonus). ')
+while dodge_gnoll != 'Roll':
+  dodge_gnoll = input('Please type Roll. ')
+if dodge_gnoll == 'Roll':
+  if player_class == 'Warrior':
+    dodge_gnoll2 = random.randint(1, 20) + warrior.strength
+    if dodge_gnoll2 <= 10:
+      print('You rolled ' + str(dodge_gnoll2) + ', Fail! The noise of your pack covers the sound of a large Brawler Gnoll charging at you down the mountain. With one sweep of its arms it sends you careening 50 feet down the hill.')
+      brawler_gnoll.attack_player(warrior)
+      print('Fortunately you landed face first in the snow. You manage to get yourself up in time to see the beast coming for you a second time.You draw your weapon.')
+    else:
+      print('You rolled ' + str(dodge_gnoll2) + ', Pass! You feel a shaking of the ground below you. Your quick reflexes allow you to jump out of the way as a massive Brawler Gnoll throws its entire body weight into where you were just standing. As it turns around, you take in the true size of the beast and steel yourself for battle.')
+  if player_class == 'Sorcerer':
+    dodge_gnoll2 = random.randint(1, 20)
+    if dodge_gnoll2 <= 10:
+      print('You rolled ' + str(dodge_gnoll2) + ', Fail! The noise of your pack covers the sound of a large Brawler Gnoll charging at you down the mountain. With one sweep of its arms it sends you careening 50 feet down the hill.')
+      brawler_gnoll.attack_player(sorcerer)
+      print('Fortunately you landed face first in the snow. You manage to get yourself up in time to see the beast coming for you a second time.You draw your weapon.')
+    else:
+      print('You rolled ' + str(dodge_gnoll2) + ', Pass! You feel a shaking of the ground below you. Your quick reflexes allow you to jump out of the way as a massive Brawler Gnoll throws its entire body weight into where you were just standing. As it turns around, you take in the true size of the beast and steel yourself for battle.')
+
+attack_gnoll = input('As you meet the beasts eyes you see that you have only one chance to smite him or he will tear into your body with both fangs and claws. You prepare to deal one swift and deadly blow. "Roll" to attack (+ intelligence, + strength). ')
+while attack_gnoll != 'Roll':
+  attack_gnoll = input('Please type Roll. ')
+if attack_gnoll == 'Roll':
+  if player_class == 'Warrior':
+    attack_gnoll = random.randint(1, 20) + warrior.strength
+    if attack_gnoll <= 14:
+      print('You rolled ' + str(attack_gnoll) + ', Fail! You swing at the beast with all your might but its too quick. It leaps back before swiping a large, clawed hand at your body.')
+      brawler_gnoll.attack_player(warrior)
+        
+      attack_gnoll_again = input('You take a grasp of air and clutch your bloodied torso. The beast is in range. Its now or never. Roll to attack. ')
+      while attack_gnoll_again != 'Roll':
+        attack_gnoll_again = input('Please type Roll. ')
+      if attack_gnoll_again == 'Roll':
+        final_roll = random.randint(1, 20) + warrior.strength
+        if final_roll <= 10:
+          print('You rolled ' + str(final_roll) + ', Fail! You flail your weapon in desperation but the Brawler Gnoll catches it mid swing. He stares at you as you are held frozen by him. Is that a smile you see?')
+          brawler_gnoll.attack_player(warrior)
+        else:
+          print('You rolled ' + str(final_roll) + ', Pass! With one final desperate swing of your weapon, you thrust into the side of the gnolls neck.')
+          warrior.attack_gnoll('Brawler')
+          print('You watch as the gnoll falls lifelss to the ground and slowly slides down the moutainside.')
+    else:
+      print('You rolled ' + str(attack_gnoll) + ', Pass! You muster up every bit of strength in your body and swing your weapon as hard as you can. You feel it connect with the gnolls neck and pass through it cleanly and thoroughly.')
+      warrior.attack_gnoll('Brawler')
+
+  if player_class == 'Sorcerer':
+    attack_gnoll2 = random.randint(1, 20) + sorcerer.intelligence
+    if attack_gnoll2 <= 14:
+      print('You rolled ' + str(attack_gnoll2) + ', Fail! You swing at the beast with all your might but its too quick. It leaps back before swiping a large, clawed hand at your body.')
+      brawler_gnoll.attack_player(sorcerer)
+      
+    
+      attack_gnoll_again1 = input('You take a grasp of air and clutch your bloodied torso. The beast is in range. Its now or never. Roll to attack. ')
+      while attack_gnoll_again1 != 'Roll':
+        attack_gnoll_again1 = input('Please type Roll. ')
+      if attack_gnoll_again1 == 'Roll':
+        final_roll1 = random.randint(1, 20) + warrior.strength
+        if final_roll1 <= 10:
+          print('You rolled ' + str(final_roll1) + ', Fail! You flail your weapon in desperation but the Brawler Gnoll catches it mid swing. He stares at you as you are held frozen by him. Is that a smile you see?')
+          brawler_gnoll.attack_player(sorcerer)
+        else:
+          print('You rolled ' + str(final_roll1) + ', Pass! With one final desperate swing of your weapon, you thrust into the side of the gnolls neck.')
+          sorcerer.attack_gnoll('Brawler')
+          print('You watch as the gnoll falls lifelss to the ground and slowly slides down the moutainside.')
+    else:
+      print('You rolled ' + str(attack_gnoll2) + ', Pass! You muster up every bit of strength in your body and swing your weapon as hard as you can. You feel it connect with the gnolls neck and pass through it cleanly and thoroughly.')
+      sorcerer.attack_gnoll('Brawler')
