@@ -2,7 +2,7 @@
 #There are 2 basic stats, Strength, Int. Level ups happen every enemy killed and the player fully heals and stats should increase. 
 #We have our main enemy "Gnolls" who have 3 different classes, 
 #Warrior (Mid damage, Mid health), archer (High damage, low health), caster (Mid damage, low health, *Sorcs immune to magic*).
-#for future iterations on this: Make attack roll rng for chance + damage.
+#for future iterations on this: Make attack roll rng for chance + damage // Create player inventory to stash items, access through indexing. 
 print(""" 
       # # # # #     # # # # # #   # # # # #    #    #         # # # #    #       #      # # # #     #           #            # # # #    
       #        #    #         #   #        #   #   #         #           # #     #    #         #   #           #          #      
@@ -87,6 +87,12 @@ class Hero:
     def exhausted(self):
       self.health -= 1
       print('Your body fights you with every step but you push on. You suffer one damage: {health}/{maxhealth}.'.format(health=self.health, maxhealth=self.max_health))
+
+# random instance damage
+    def instance_damage(self):
+      damage = random.randint(1, 6)
+      self.health -= damage
+      print('You take ' + str(damage) + ' damage. You now have {health}/{maxhealth} health.'.format(health = self.health, maxhealth = self.max_health))
 
 # if loot lust goes wrong
     def trap_damage(self):
@@ -267,7 +273,7 @@ if chest1 == 'Reach':
       sorcerer.helm()
 
 if chest1 == 'Check':
-  chest_check_war = input('Your eyes scan the area for signs of ill intent. Roll 1d20 (+ intelligence bonus). \n')
+  chest_check_war = input('\nYour eyes scan the area for signs of ill intent. Roll 1d20 (+ intelligence bonus). \n')
   while chest_check_war != 'Roll':
     chest_check_war = input('Please type Roll to roll. \n')
   if chest_check_war == 'Roll':
@@ -301,16 +307,20 @@ while (venture_forth != 'Rest') and (venture_forth != 'Continue'):
   venture_forth = input('Please type Rest or Continue. ')
 if venture_forth == 'Rest':
   if player_class == 'Warrior':
+    print('\n')
     warrior.rest()
   else:
+    print('\n')
     sorcerer.rest()
 if venture_forth == 'Continue':
   if player_class == 'Warrior':
+    print('\n')
     warrior.exhausted()
   else:
+    print('\n')
     sorcerer.exhausted()
 
-dodge_gnoll = input('\nYou make your way down the hillside north and spot the towers of Goteem city! As you pick up your pace the sound of your pack blocks out the sounds of the mountainside. "Roll" 1d20 (+ strength bonus). \n')
+dodge_gnoll = input('You make your way down the hillside north and spot the towers of Goteem city! As you pick up your pace the sound of your pack blocks out the sounds of the mountainside. "Roll" 1d20 (+ strength bonus). \n')
 while dodge_gnoll != 'Roll':
   dodge_gnoll = input('Please type Roll. ')
 if dodge_gnoll == 'Roll':
@@ -393,3 +403,40 @@ if attack_gnoll == 'Roll':
       print('You rolled ' + str(attack_gnoll2) + ', Pass! You muster up every bit of strength in your body and swing your weapon as hard as you can. You feel it connect with the gnolls neck and pass through it cleanly and thoroughly.')
       sorcerer.attack_gnoll('Brawler')
       print('You watch as the gnoll falls lifelss to the ground and slowly slides down the moutainside.')
+
+# ending story + rolls
+print('\nAs you wipe the blood from your cloack and weapon you look up to see the spires of Goteem just down the mountain. You are close now. You begin your final treck down the mountain towards the forest tree line covering the cities walls. As you get closer you begin to hear voices, nothing out of the ordinary at first but slowly rising in volume and... desperation.\n')
+listen_to_goteem = input('Roll to listen. \n')
+while listen_to_goteem != 'Roll':
+  listen_to_goteem = input('Please type Roll to listen.')
+if listen_to_goteem == 'Roll':
+  hearing_check = random.randint(1, 20)
+  if hearing_check <= 14:
+    print('\nYou rolled ' + str(hearing_check) + ', fail! The forest mutes the sounds too much to make anything out clearly. Just then a round metallic object comes flying out of the forest and hits you full force in the face, knocking you unconcious on the ground.')
+    if player_class == 'Warrior':
+      warrior.instance_damage()
+    else:
+      sorcerer.instance_damage()
+  else:
+    print('\nYou hear the unmistakeble sounds of combat just through the tree line. Shouts of pain tear through the air and your adrenaline rushes. Being on high alert, your eyes scan the tree line for any ill-doers just in time to pick up on an object flying at you from the trees. You step out of its path and watch it pound into the ground and roll away from you.')
+head_horror = input('\nAs you look over at the object, your body freezes as you stare in abject terror. A head. A human head. A human head in a sterling silver helmet, disconnected from its body with what look like giant claw marks. Roll to avert your eyes from the madness. \n')
+while head_horror != 'Roll':
+  head_horror = input('Please type Roll. ')
+if head_horror == 'Roll':
+  avoid_boss_gnoll = random.randint(1, 20)
+  if avoid_boss_gnoll <= 3:
+    print('\nYou rolled ' + avoid_boss_gnoll + ', critical fail! \nYou cant look away. The brutality is just too much for you to witness. Your eyes glued to the head, you dont notice the Gnoll Lord approach you. The last thing you hear is a dark guttural growl before blackness cascades in around you.')
+    if player_class == 'Warrior':
+      warrior.game_over()
+    else:
+      sorcerer.game_over()
+  else:
+    print('\nYou rend your eyes from the terrible sight. What creature could have done something like this? You feel anger now and your spirit grows fiery hot. You will avenge this person and protect anyone else you find in the city. You draw your weapon and look up. A Gnoll Lord smiles at you from the edge of the forest, blood dripping from his hand.\n')
+    print('You will have your revenge... just not today... \nTO BE CONTINUED!')
+end_game = input('\nCongratulations, you made it! Thank you for playing Dark Gnolls! Stay tuned for part 2! Please type Exit to end the game or stick around and do a twirly dance for a while. \n')
+while end_game != 'Exit':
+  end_game = input('You do a twirly spin into a disco finger as power courses through you. Type Exit when ready. \n')
+if end_game == 'Exit':
+  SystemExit
+    
+    
