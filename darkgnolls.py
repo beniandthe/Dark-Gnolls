@@ -2,6 +2,7 @@
 #There are 2 basic stats, Strength, Int. Level ups happen every enemy killed and the player fully heals and stats should increase. 
 #We have our main enemy "Gnolls" who have 3 different classes, 
 #Warrior (Mid damage, Mid health), archer (High damage, low health), caster (Mid damage, low health, *Sorcs immune to magic*).
+#for future iterations on this: Make attack roll rng for chance + damage.
 print(""" 
       # # # # #     # # # # # #   # # # # #    #    #         # # # #    #       #      # # # #     #           #            # # # #    
       #        #    #         #   #        #   #   #         #           # #     #    #         #   #           #          #      
@@ -13,7 +14,7 @@ print("""
       # # # # #     #         #   #      #     #    #        # # # # #   #       #      # # # #     # # # # #   # # # # #   # # # # #      
       """)
 
-print("*Narrator* \nYou're finally awake. As you push yourself up off the cold and wet dirt you notice blood soaked into your clothes. You panic and begin checking yourself for injuries but your vision is pulled away by the body of a gnoll laying dead next to you, it's heart pierced by your dagger. Evidently you just managed to pull yourself out of the literal jaws of fate. You can't remember anything except that you know you need to travel to the city of Goteem. Why? You can't recall. Where is it? Who knows. But more importantly... who are you?...\n")
+print("*Narrator* \nYou're finally awake. As you push yourself up off the cold and wet dirt you notice blood soaked into your clothes. You panic and begin checking yourself for injuries but your vision is pulled away to the body of a gnoll laying dead next to you, it's heart pierced by your dagger. Evidently you just managed to pull yourself out of the literal jaws of fate. You can't remember anything except that you know you need to travel to the city of Goteem. Why? You can't recall. Where is it? Who knows. But more importantly... who are you?...\n")
 import random
 import sys
 
@@ -363,6 +364,7 @@ if attack_gnoll == 'Roll':
       print('\n')
       print('You rolled ' + str(attack_gnoll) + ', Pass! You muster up every bit of strength in your body and swing your weapon as hard as you can. You feel it connect with the gnolls neck and pass through it cleanly and thoroughly.')
       warrior.attack_gnoll('Brawler')
+      print('You watch as the gnoll falls lifelss to the ground and slowly slides down the moutainside.')
 
   if player_class == 'Sorcerer':
     attack_gnoll2 = random.randint(1, 20) + sorcerer.intelligence
@@ -390,3 +392,4 @@ if attack_gnoll == 'Roll':
       print('\n')
       print('You rolled ' + str(attack_gnoll2) + ', Pass! You muster up every bit of strength in your body and swing your weapon as hard as you can. You feel it connect with the gnolls neck and pass through it cleanly and thoroughly.')
       sorcerer.attack_gnoll('Brawler')
+      print('You watch as the gnoll falls lifelss to the ground and slowly slides down the moutainside.')
