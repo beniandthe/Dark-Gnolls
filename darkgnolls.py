@@ -1,8 +1,8 @@
-# Dark Gnolls - We have a "Hero" Class who can be 2 different classes, Warrior, Sorcerer, Rogue. 
+# Welcome to Dark Gnolls - I hoppe you enjoy your adventure through the land on Nautz! As it's my first ever full python project and first official git publication,  would love to hear any and all feedback. There are definitely ways i coluld have made the methods and class objects interact a little more smoothly but for what it is, i think it dies the trick ok. 
+#We have a "Hero" Class who can be 2 different objects, Warrior, Sorcerer. 
 #There are 2 basic stats, Strength, Int. Level ups happen every enemy killed and the player fully heals and stats should increase. 
-#We have our main enemy "Gnolls" who have 3 different classes, 
-#Warrior (Mid damage, Mid health), archer (High damage, low health), caster (Mid damage, low health, *Sorcs immune to magic*).
-#for future iterations on this: Make attack roll rng for chance + damage // Create player inventory to stash items, access through indexing. 
+#We have our main enemy "Gnolls" who have 2 different class object, Brawler and Mage. Warrior (Mid damage, Mid health), Mage (Mid damage, low health, *Sorcs immune to magic*).
+#for future iterations on this: Make attack roll AND damage rng for more variations. // Create player inventory to stash items, access through indexing. 
 print(""" 
       # # # # #     # # # # # #   # # # # #    #    #         # # # #    #       #      # # # #     #           #            # # # #    
       #        #    #         #   #        #   #   #         #           # #     #    #         #   #           #          #      
@@ -256,7 +256,7 @@ if chest1 == 'Reach':
       else:
         print('\n')
         print('You rolled ' + str(dodge_roll) + ', Pass! You narrowly step out of the way as 3 throwing darts inch past your right shoulder and embed themselevs into the wall.')
-      print('\nYou peer into the contents of the chest and pick out something shiny - a "Ring of Precise Attack!" (+4 to strength). You put it on and immediately feel stonger.')
+      print('You peer into the contents of the chest and pick out something shiny - a "Ring of Precise Attack!" (+4 to strength). You put it on and immediately feel stonger.')
       warrior.ring_of_str()
       
     else:
@@ -269,7 +269,7 @@ if chest1 == 'Reach':
       else:
         print('\n')
         print('You rolled ' + str(dodge_roll) + ', Pass! You narrowly step out of the way as 3 throwing darts inch past your right shoulder and embed themselevs into the wall.')
-      print('\nYou peer into the contents of the chest and pick out something shiny - a "Helm of Intelligence" (+4 to intelligence). You put it on and immediately feel wiser.')
+      print('You peer into the contents of the chest and pick out something shiny - a "Helm of Intelligence" (+4 to intelligence). You put it on and immediately feel wiser.')
       sorcerer.helm()
 
 if chest1 == 'Check':
@@ -287,7 +287,7 @@ if chest1 == 'Check':
       else:
         print('\n')
         print('You rolled ' + str(check_roll) + ', Pass! You notice a thin wire wrapped between the handle of the chest, laying just taught enough across the ground. It connects to a series of holes in the wall behind you. You step away and surgically cut the wire from a distance as 3 darts explode out of the holes and embed themselves in the far wall.')
-      print('\nAs you peer into the contents of the chest you pick out something shiny - a "Ring of Precise Attack!" (+5 to strength). You put it on and immediately feel stonger.')
+      print('As you peer into the contents of the chest you pick out something shiny - a "Ring of Precise Attack!" (+5 to strength). You put it on and immediately feel stonger.')
       warrior.ring_of_str()  
     else:
       check_roll = random.randint(1, 20) + sorcerer.intelligence
@@ -299,7 +299,7 @@ if chest1 == 'Check':
       else:
         print('\n')
         print('You rolled ' + str(check_roll) + ', Pass! You notice a thin wire wrapped between the handle of the chest, laying just taught enough across the ground. It connects to a series of holes in the wall behind you. You step away and surgically cut the wire from a distance as 3 darts explode out of the holes and embed themselves in the far wall.')
-      print('\nAs you peer into the contents of the chest you pick out something shiny - a "Helm of Intelligence" (+4 to intelligence). You put it on and immediately feel wiser.')
+      print('As you peer into the contents of the chest you pick out something shiny - a "Helm of Intelligence" (+4 to intelligence). You put it on and immediately feel wiser.')
       sorcerer.helm()
 
 venture_forth = input('\nWith your powers strengthened, you exit the cave and inhale a deep breath of fresh air. All of a sudden you feel the weight of your pack and the cold in your bones. Exhaustion grips you. On a hill nearby you spot a perfect place to setup camp. You may "Rest" or "Continue" on. \n')
